@@ -1,0 +1,41 @@
+{
+  "name": "Lremty - شاهد مع أصدقائك",
+  "short_name": "Lremty",
+  "description": "منصة لمشاهدة الفيديوهات مع الأصدقاء بشكل متزامن مع دردشة فورية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff6b35",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "resources/images/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "social"],
+  "screenshots": [
+    {
+      "src": "resources/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "resources/images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

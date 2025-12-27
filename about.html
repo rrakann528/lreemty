@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن الموقع - Lremty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #1a202c;
+            --accent-orange: #ff6b35;
+            --accent-blue: #00d4ff;
+            --accent-purple: #8b5cf6;
+            --text-light: #e2e8f0;
+            --bg-black: #000000;
+        }
+        
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+        }
+        
+        .hero-title {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(45deg, var(--accent-orange), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+        
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        .faq-question:hover {
+            color: var(--accent-blue);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+        
+        .faq-answer.open {
+            max-height: 200px;
+            padding: 20px;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg border-b border-gray-800">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <img src="resources/images/logo.png" alt="Lremty" class="w-10 h-10">
+                    <h1 class="text-xl font-bold hero-title">Lremty</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white">الرئيسية</a>
+                    <a href="about.html" class="nav-link text-white font-semibold">عن الموقع</a>
+                    <a href="contact.html" class="nav-link text-gray-300 hover:text-white">اتصل بنا</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-transparent to-black">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="hero-title text-5xl md:text-6xl font-bold mb-6">
+                    عن Lremty
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                    منصة Lremty هي الحل المثالي لمشاهدة الفيديوهات مع أصدقائك بشكل متزامن، 
+                    حيث يمكنكم التمتع بتجربة مشاهدة اجتماعية لا مثيل لها.
+                </p>
+                <img 
+                    src="resources/images/watch-together-illustration.png" 
+                    alt="مشاهدة الفيديو مع الأصدقاء"
+                    class="mx-auto max-w-md w-full opacity-0" 
+                    id="hero-image"
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-black bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 hero-title">المميزات الرئيسية</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">تزامن فوري</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        تزامن مثالي للفيديو بين جميع المشاركين بدون أي تأخير ملحوظ. 
+                        سواء كنت تشاهد فيديوهات YouTube أو ملفات MP4 أو بث M3U8، 
+                        ستحصل على تجربة مشاهدة متزامنة بجودة عالية.
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">دردشة تفاعلية</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        دردشة فورية مرئية حتى في وضع ملء الشاشة. تابع المحادثة مع أصدقائك 
+                        أثناء المشاهدة دون الحاجة للخروج من وضع العرض الكامل. 
+                        مع إشعارات ذكية للرسائل الجديدة.
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">توافق شامل</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        يعمل Lremty على جميع الأجهزة والشاشات. سواء كنت تستخدم 
+                        هاتفك الذكي، جهازك اللوحي، أو حاسوبك المكتبي، ستحصل على 
+                        تجربة مثالية متوافقة مع Safari وأجهزة Apple.
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">دعم متعدد المصادر</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        يدعم Lremty مجموعة واسعة من مصادر الفيديو. سواء كانت 
+                        فيديوهات YouTube، روابط MP4 المباشرة، أو قنوات البث M3U8، 
+                        يمكنك مشاركتها جميعاً مع أصدقائك بسهولة.
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">سهل الاستخدام</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        واجهة مستخدم بسيطة وبديهية. أنشئ غرفتك وشارك الرابط مع أصدقائك 
+                        بنقرة واحدة فقط. لا حاجة للتسجيل أو إنشاء حسابات معقدة. 
+                        ابدأ المشاهدة فوراً.
+                    </p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center opacity-0 feature-card">
+                    <div class="text-6xl mb-6 feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-white">أداء متميز</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        تم تحسين Lremty للعمل بسلاسة حتى مع الإنترنت البطيء. 
+                        استمتع بتجربة مشاهدة سلسة مع تحميل كسول للمحتوى وضغط البيانات 
+                        والتخزين المؤقت الذكي.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="py-20 bg-gradient-to-b from-transparent to-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 hero-title">كيف يعمل Lremty؟</h2>
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center opacity-0 step-item">
+                        <div class="step-number">1</div>
+                        <h3 class="text-xl font-semibold mb-4 text-white">إنشاء غرفة</h3>
+                        <p class="text-gray-400">
+                            انقر على "إنشاء غرفة جديدة" للحصول على رابط فريد خاص بغرفتك. 
+                            الغرفة ستكون جاهزة فوراً لاستقبال المشاركين.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center opacity-0 step-item">
+                        <div class="step-number">2</div>
+                        <h3 class="text-xl font-semibold mb-4 text-white">مشاركة الرابط</h3>
+                        <p class="text-gray-400">
+                            شارك الرابط مع أصدقائك عبر الرسائل أو وسائل التواصل الاجتماعي. 
+                            يمكن لأي شخص لديه الرابط الانضمام فوراً.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center opacity-0 step-item">
+                        <div class="step-number">3</div>
+                        <h3 class="text-xl font-semibold mb-4 text-white">استمتع معاً</h3>
+                        <p class="text-gray-400">
+                            شاهد الفيديو وتحدث مع أصدقائك بحرية. استمتع بتجربة مشاهدة 
+                            اجتماعية لا مثيل لها مع من تحب على Lremty.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="py-20 bg-black bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 hero-title">التقنيات المستخدمة</h2>
+            
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="text-xl text-gray-300 mb-12">
+                    تم بناء Lremty باستخدام أحدث التقنيات لضمان أفضل تجربة للمستخدم
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-12">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript ES6+</span>
+                    <span class="tech-badge">WebRTC</span>
+                    <span class="tech-badge">WebSocket</span>
+                    <span class="tech-badge">Tailwind CSS</span>
+                    <span class="tech-badge">Anime.js</span>
+                    <span class="tech-badge">PWA</span>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-xl font-semibold mb-4 text-white">
+                            <i class="fas fa-rocket feature-icon ml-2"></i>
+                            الأداء المتقدم
+                        </h3>
+                        <p class="text-gray-400">
+                            استخدام تقنيات حديثة مثل Lazy Loading وضغط البيانات 
+                            والتخزين المؤقت لضمان أداء سلس حتى على الأجهزة الضعيفة.
+                        </p>
+                    </div>
+                    
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-xl font-semibold mb-4 text-white">
+                            <i class="fas fa-shield-alt feature-icon ml-2"></i>
+                            الأمان والخصوصية
+                        </h3>
+                        <p class="text-gray-400">
+                            حماية خصوصية المستخدمين بدون تسجيل إجباري، 
+                            مع تشفير الاتصالات وإدارة جلسات آمنة.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gradient-to-b from-transparent to-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 hero-title">الأسئلة الشائعة</h2>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">هل يحتاج الموقع إلى تسجيل دخول؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            لا، Lremty لا يتطلب تسجيل دخول. يمكنك إنشاء غرفة والانضمام إليها فوراً 
+                            دون الحاجة لإنشاء حساب أو تسجيل بياناتك.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">ما هي صيغ الفيديو المدعومة؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            يدعم الموقع فيديوهات YouTube، روابط MP4 المباشرة، وقنوات البث M3U8. 
+                            نعمل على إضافة دعم لمصادر فيديو إضافية في المستقبل.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">كم عدد الأشخاص الذين يمكنهم الانضمام لغرفة واحدة؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            يمكن لغرفة واحدة استيعاب حتى 50 مشارك في نفس الوقت. 
+                            هذا العدد قابل للزيادة في المستقبل بناءً على طلب المستخدمين.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">هل يعمل الموقع على أجهزة Apple؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            نعم، تم اختبار الموقع بشكل كامل على Safari ويعمل بشكل ممتاز على 
+                            iPhone و iPad وجميع أجهزة Apple الأخرى.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">كيف يتم مزامنة الفيديو بين المشاركين؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            يستخدم الموقع تقنية WebSocket للاتصال الفوري بين المشاركين. عندما يقوم 
+                            المضيف بتشغيل أو إيقاف أو تقديم الفيديو، يتم تحديث الحالة فوراً لجميع المشاركين.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item opacity-0 faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <h3 class="text-lg font-semibold text-white">هل يمكنني استخدام الموقع مجاناً؟</h3>
+                        <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-400">
+                            نعم، Lremty مجاني بالكامل للاستخدام. يمكنك إنشاء غرف غير محدودة 
+                            والانضمام إليها والاستمتاع بجميع المميزات دون أي تكلفة.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-black bg-opacity-80">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6 hero-title">مستعد للبدء؟</h2>
+            <p class="text-xl text-gray-300 mb-8">
+                انضم الآن إلى آلاف المستخدمين الذين يستمتعون بتجربة المشاهدة الاجتماعية
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all">
+                    <i class="fas fa-plus ml-2"></i>
+                    إنشاء غرفة جديدة
+                </a>
+                <a href="index.html#join" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-full font-semibold text-lg hover:shadow-lg transition-all">
+                    <i class="fas fa-sign-in-alt ml-2"></i>
+                    الانضمام لغرفة
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-4 space-x-reverse mb-4">
+                <img src="resources/images/logo.png" alt="Lremty" class="w-8 h-8">
+                <span class="hero-title text-lg font-bold">Lremty</span>
+            </div>
+            <p class="text-gray-400">© 2025 Lremty. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate hero image
+            anime({
+                targets: '#hero-image',
+                opacity: [0, 1],
+                translateY: [50, 0],
+                duration: 1000,
+                easing: 'easeOutExpo',
+                delay: 500
+            });
+            
+            // Animate feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [50, 0],
+                            scale: [0.9, 1],
+                            duration: 600,
+                            easing: 'easeOutExpo',
+                            delay: index * 100
+                        });
+                    }
+                });
+            });
+            
+            featureCards.forEach(card => {
+                card.style.opacity = '0';
+                observer.observe(card);
+            });
+            
+            // Animate step items
+            const stepItems = document.querySelectorAll('.step-item');
+            const stepObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [30, 0],
+                            duration: 600,
+                            easing: 'easeOutExpo',
+                            delay: index * 200
+                        });
+                    }
+                });
+            });
+            
+            stepItems.forEach(item => {
+                item.style.opacity = '0';
+                stepObserver.observe(item);
+            });
+            
+            // Animate FAQ items
+            const faqItems = document.querySelectorAll('.faq-item');
+            const faqObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateX: [-50, 0],
+                            duration: 600,
+                            easing: 'easeOutExpo',
+                            delay: index * 100
+                        });
+                    }
+                });
+            });
+            
+            faqItems.forEach(item => {
+                item.style.opacity = '0';
+                faqObserver.observe(item);
+            });
+        });
+        
+        // FAQ Toggle Function
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other FAQ items
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    item.classList.remove('open');
+                });
+                document.querySelectorAll('.faq-question i').forEach(item => {
+                    item.style.transform = 'rotate(0deg)';
+                });
+                
+                // Open current item
+                answer.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>

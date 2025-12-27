@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - WatchTogether</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #1a202c;
+            --accent-orange: #ff6b35;
+            --accent-blue: #00d4ff;
+            --accent-purple: #8b5cf6;
+            --text-light: #e2e8f0;
+            --bg-black: #000000;
+        }
+        
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: linear-gradient(135deg, var(--bg-black) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+        }
+        
+        .hero-title {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(45deg, var(--accent-orange), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .contact-icon {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .form-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, var(--accent-orange), #ff8c42);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        
+        .social-link {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg border-b border-gray-800">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <img src="resources/images/logo.png" alt="WatchTogether" class="w-10 h-10">
+                    <h1 class="text-xl font-bold hero-title">Lremty</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-white">الرئيسية</a>
+                    <a href="about.html" class="nav-link text-gray-300 hover:text-white">عن الموقع</a>
+                    <a href="contact.html" class="nav-link text-white font-semibold">اتصل بنا</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-transparent to-black">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="hero-title text-5xl md:text-6xl font-bold mb-6">
+                    تواصل معنا
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                    لديك سؤال أو اقتراح أو تواجه مشكلة؟ نحن هنا للمساعدة
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="py-20 bg-black bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Contact Form -->
+                    <div class="glass-card rounded-2xl p-8 opacity-0" id="contact-form">
+                        <h2 class="text-3xl font-bold mb-8 hero-title text-center">
+                            <i class="fas fa-envelope ml-2"></i>
+                            أرسل لنا رسالة
+                        </h2>
+                        
+                        <form id="contactForm" onsubmit="submitForm(event)">
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-white">الاسم الأول</label>
+                                    <input 
+                                        type="text" 
+                                        name="firstName"
+                                        class="form-input w-full px-4 py-3 rounded-lg"
+                                        placeholder="أدخل اسمك الأول"
+                                        required
+                                    >
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold mb-2 text-white">الاسم الأخير</label>
+                                    <input 
+                                        type="text" 
+                                        name="lastName"
+                                        class="form-input w-full px-4 py-3 rounded-lg"
+                                        placeholder="أدخل اسمك الأخير"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold mb-2 text-white">البريد الإلكتروني</label>
+                                <input 
+                                    type="email" 
+                                    name="email"
+                                    class="form-input w-full px-4 py-3 rounded-lg"
+                                    placeholder="أدخل بريدك الإلكتروني"
+                                    required
+                                >
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold mb-2 text-white">نوع الرسالة</label>
+                                <select 
+                                    name="messageType"
+                                    class="form-input w-full px-4 py-3 rounded-lg"
+                                    required
+                                >
+                                    <option value="">اختر نوع الرسالة</option>
+                                    <option value="question">سؤال</option>
+                                    <option value="suggestion">اقتراح</option>
+                                    <option value="bug">مشكلة تقنية</option>
+                                    <option value="feedback">تقييم</option>
+                                    <option value="other">أخرى</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-8">
+                                <label class="block text-sm font-semibold mb-2 text-white">الرسالة</label>
+                                <textarea 
+                                    name="message"
+                                    rows="6"
+                                    class="form-input w-full px-4 py-3 rounded-lg resize-none"
+                                    placeholder="اكتب رسالتك هنا..."
+                                    required
+                                ></textarea>
+                            </div>
+                            
+                            <button 
+                                type="submit"
+                                class="submit-btn w-full py-4 rounded-lg text-white font-semibold text-lg"
+                            >
+                                <i class="fas fa-paper-plane ml-2"></i>
+                                إرسال الرسالة
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="space-y-8">
+                        <div class="info-card rounded-2xl p-8 opacity-0" id="contact-info">
+                            <h3 class="text-2xl font-bold mb-6 hero-title">
+                                <i class="fas fa-info-circle ml-2"></i>
+                                معلومات التواصل
+                            </h3>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start space-x-4 space-x-reverse">
+                                    <div class="contact-icon text-3xl">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-1">البريد الإلكتروني</h4>
+                                        <p class="text-gray-400">support@watchtogether.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4 space-x-reverse">
+                                    <div class="contact-icon text-3xl">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-1">وقت الاستجابة</h4>
+                                        <p class="text-gray-400">نرد خلال 24-48 ساعة</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4 space-x-reverse">
+                                    <div class="contact-icon text-3xl">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-1">اللغات المدعومة</h4>
+                                        <p class="text-gray-400">العربية، الإنجليزية</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card rounded-2xl p-8 opacity-0" id="social-media">
+                            <h3 class="text-2xl font-bold mb-6 hero-title text-center">
+                                <i class="fas fa-share-alt ml-2"></i>
+                                تابعنا على وسائل التواصل
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <a href="#" class="social-link rounded-lg p-4 text-center hover:bg-blue-600">
+                                    <i class="fab fa-twitter text-2xl mb-2"></i>
+                                    <div class="text-sm">Twitter</div>
+                                </a>
+                                
+                                <a href="#" class="social-link rounded-lg p-4 text-center hover:bg-blue-700">
+                                    <i class="fab fa-facebook text-2xl mb-2"></i>
+                                    <div class="text-sm">Facebook</div>
+                                </a>
+                                
+                                <a href="#" class="social-link rounded-lg p-4 text-center hover:bg-pink-600">
+                                    <i class="fab fa-instagram text-2xl mb-2"></i>
+                                    <div class="text-sm">Instagram</div>
+                                </a>
+                                
+                                <a href="#" class="social-link rounded-lg p-4 text-center hover:bg-red-600">
+                                    <i class="fab fa-youtube text-2xl mb-2"></i>
+                                    <div class="text-sm">YouTube</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="py-20 bg-gradient-to-b from-transparent to-black">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold mb-8 hero-title">تحتاج إلى مساعدة سريعة؟</h2>
+                <p class="text-xl text-gray-300 mb-12">
+                    تحقق من صفحة الأسئلة الشائعة أو راجع دليل الاستخدام
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <a href="about.html#faq" class="glass-card rounded-2xl p-8 hover:scale-105 transition-transform">
+                        <div class="text-4xl mb-4 contact-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">الأسئلة الشائعة</h3>
+                        <p class="text-gray-400">إجابات لأكثر الأسئلة شيوعاً</p>
+                    </a>
+                    
+                    <a href="about.html" class="glass-card rounded-2xl p-8 hover:scale-105 transition-transform">
+                        <div class="text-4xl mb-4 contact-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">دليل الاستخدام</h3>
+                        <p class="text-gray-400">تعرف على كيفية استخدام الموقع</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-4 space-x-reverse mb-4">
+                <img src="resources/images/logo.png" alt="WatchTogether" class="w-8 h-8">
+                <span class="hero-title text-lg font-bold">WatchTogether</span>
+            </div>
+            <p class="text-gray-400">© 2025 WatchTogether. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate contact form
+            anime({
+                targets: '#contact-form',
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 800,
+                easing: 'easeOutExpo',
+                delay: 200
+            });
+            
+            // Animate contact info
+            anime({
+                targets: '#contact-info',
+                opacity: [0, 1],
+                translateX: [50, 0],
+                duration: 800,
+                easing: 'easeOutExpo',
+                delay: 400
+            });
+            
+            // Animate social media
+            anime({
+                targets: '#social-media',
+                opacity: [0, 1],
+                translateX: [50, 0],
+                duration: 800,
+                easing: 'easeOutExpo',
+                delay: 600
+            });
+        });
+        
+        // Form submission
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Show loading state
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                // Show success message
+                showNotification('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
+                
+                // Reset form
+                form.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 px-6 py-3 rounded-lg text-white z-50 transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(full)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+        
+        // Form validation
+        function validateForm() {
+            const inputs = document.querySelectorAll('.form-input');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value.trim()) {
+                    input.style.borderColor = '#ef4444';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+            
+            return isValid;
+        }
+        
+        // Add input event listeners for real-time validation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.style.borderColor = '#ef4444';
+                } else {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(239, 68, 68)') {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

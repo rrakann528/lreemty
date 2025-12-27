@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>غرفة المشاهدة - Lremty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #1a202c;
+            --accent-orange: #ff6b35;
+            --accent-blue: #00d4ff;
+            --accent-purple: #8b5cf6;
+            --text-light: #e2e8f0;
+            --bg-black: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background: var(--bg-black);
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+        }
+        
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+        
+        /* Custom Fullscreen Mode */
+        .fullscreen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: #000;
+        }
+        
+        .fullscreen-mode .video-player {
+            object-fit: contain;
+        }
+        
+        /* Video Controls - Mobile Optimized */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 15px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+        
+        .video-container:hover .video-controls {
+            transform: translateY(0);
+        }
+        
+        .fullscreen-mode .video-controls {
+            transform: translateY(0);
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            margin: 0 15px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            border-radius: 4px;
+            transition: width 0.1s ease;
+            position: relative;
+        }
+        
+        .progress-handle {
+            position: absolute;
+            right: -6px;
+            top: -5px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .progress-bar:hover .progress-handle {
+            opacity: 1;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* Chat Toggle Button - Fixed Position */
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
+            background: var(--accent-orange);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(255, 107, 53, 0.6);
+        }
+        
+        /* Chat Toggle for Fullscreen Mode - Bottom Right */
+        .fullscreen-chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .fullscreen-chat-toggle.show {
+            display: flex;
+        }
+        
+        .fullscreen-chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.6);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Chat Sidebar */
+        .chat-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 100vh;
+            background: rgba(26, 32, 44, 0.98);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+        
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            animation: slideInMessage 0.3s ease;
+        }
+        
+        @keyframes slideInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-bubble {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 18px;
+            display: inline-block;
+            max-width: 100%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .message.own .message-bubble {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .message-username {
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 5px;
+        }
+        
+        /* Video Input Area - Mobile Optimized */
+        .video-input-area {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .url-input {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            width: 320px;
+            backdrop-filter: blur(10px);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .url-input:focus {
+            border-color: var(--accent-blue);
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-load {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-load:hover {
+            background: #0099cc;
+            transform: translateY(-1px);
+        }
+        
+        /* Room Info */
+        .room-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            max-width: 280px;
+            z-index: 100;
+        }
+        
+        .room-id {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        
+        .room-id:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .share-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .share-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+        
+        /* Notification Popup */
+        .notification-popup {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-right: 4px solid var(--accent-blue);
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            z-index: 2001;
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .notification-popup.show {
+            transform: translateX(0);
+        }
+        
+        .notification-popup.auto-hide {
+            animation: autoHide 5s ease-in-out forwards;
+        }
+        
+        @keyframes autoHide {
+            0% { transform: translateX(400px); }
+            10% { transform: translateX(0); }
+            90% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(400px); opacity: 0; }
+        }
+        
+        /* Participants */
+        .participants-list {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .participant {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .participant:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .participant-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Mobile Responsiveness - Small Phones */
+        @media (max-width: 768px) {
+            .chat-sidebar {
+                width: 100%;
+            }
+            
+            .video-input-area {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .url-input {
+                width: 100%;
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+            
+            .btn-load {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 16px;
+            }
+            
+            .room-info {
+                top: 80px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+                padding: 12px;
+            }
+            
+            .chat-toggle {
+                bottom: 20px;
+                left: 20px;
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+            
+            .fullscreen-chat-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+            
+            .video-controls {
+                padding: 12px 15px;
+            }
+            
+            .control-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .progress-bar {
+                height: 6px;
+                margin: 0 8px;
+            }
+            
+            .volume-slider {
+                width: 60px;
+            }
+        }
+        
+        /* Extra Small Phones */
+        @media (max-width: 375px) {
+            .url-input {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            
+            .btn-load {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            
+            .control-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+            
+            .chat-toggle,
+            .fullscreen-chat-toggle {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+        }
+        
+        /* iOS Specific Styles */
+        @supports (-webkit-touch-callout: none) {
+            .video-controls {
+                padding-bottom: 25px;
+            }
+            
+            .chat-toggle,
+            .fullscreen-chat-toggle {
+                bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+        <div class="video-wrapper" id="videoWrapper">
+            <video class="video-player" id="videoPlayer" playsinline>
+                <source src="" type="video/mp4">
+                متصفحك لا يدعم تشغيل الفيديو.
+            </video>
+        </div>
+        
+        <!-- Custom Video Controls -->
+        <div class="video-controls" id="videoControls">
+            <div class="flex items-center gap-3 mb-4">
+                <button class="control-btn" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">
+                        <div class="progress-handle"></div>
+                    </div>
+                </div>
+                
+                <span class="text-sm font-mono" id="timeDisplay">0:00 / 0:00</span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="control-btn" id="muteBtn">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100">
+                
+                <button class="control-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+                
+                <div class="flex items-center gap-2 text-sm">
+                    <i class="fas fa-users"></i>
+                    <span id="participantCount">1</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video Input Area -->
+        <div class="video-input-area">
+            <input 
+                type="text" 
+                class="url-input" 
+                id="videoUrlInput"
+                placeholder="أدخل رابط YouTube أو MP4 أو M3U8..."
+            >
+            <button class="btn-load" onclick="loadVideo()">
+                <i class="fas fa-play"></i>
+                <span>تحميل</span>
+            </button>
+        </div>
+        
+        <!-- Room Info -->
+        <div class="room-info">
+            <div class="mb-3">
+                <div class="text-sm text-gray-300 mb-1">رقم الغرفة:</div>
+                <div class="room-id" id="roomIdDisplay" onclick="copyRoomId()">غير معروف</div>
+            </div>
+            <button class="share-btn" onclick="shareRoom()">
+                <i class="fas fa-share ml-2"></i>
+                مشاركة الغرفة
+            </button>
+        </div>
+    </div>
+    
+    <!-- Chat Toggle Button (Normal Mode) -->
+    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+    </button>
+    
+    <!-- Chat Toggle Button (Fullscreen Mode - Bottom Right) -->
+    <button class="fullscreen-chat-toggle" id="fullscreenChatToggle" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+    </button>
+    
+    <!-- Chat Sidebar -->
+    <div class="chat-sidebar" id="chatSidebar">
+        <div class="chat-header">
+            <h3 class="text-lg font-semibold">
+                <i class="fas fa-comments ml-2"></i>
+                الدردشة
+            </h3>
+            <button onclick="toggleChat()" class="text-gray-400 hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Participants List -->
+        <div class="participants-list">
+            <h4 class="text-sm font-semibold mb-3 text-gray-300">
+                <i class="fas fa-users ml-2"></i>
+                المشاركون (<span id="participantsCount">1</span>)
+            </h4>
+            <div id="participantsList">
+                <div class="participant">
+                    <div class="status-indicator"></div>
+                    <div class="participant-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>أنت</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="text-center text-gray-400 text-sm py-4">
+                مرحباً بك في Lremty! أضف رابط الفيديو للبدء.
+            </div>
+        </div>
+        
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+            <span class="text-sm text-gray-400 mr-2">أحدهم يكتب...</span>
+        </div>
+        
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+            <div class="flex gap-2">
+                <input 
+                    type="text" 
+                    id="chatInput"
+                    placeholder="اكتب رسالتك..."
+                    class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"
+                    onkeypress="handleChatInput(event)"
+                    oninput="handleTyping()"
+                >
+                <button 
+                    onclick="sendMessage()"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification Popup -->
+    <div class="notification-popup" id="notificationPopup">
+        <div class="flex items-center">
+            <i class="fas fa-comment ml-3 text-blue-400"></i>
+            <div>
+                <div class="font-semibold text-sm" id="notificationUsername">اسم المستخدم</div>
+                <div class="text-sm text-gray-300" id="notificationMessage">الرسالة</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentRoom = null;
+        let videoPlayer = null;
+        let isPlaying = false;
+        let currentTime = 0;
+        let duration = 0;
+        let isTyping = false;
+        let typingTimeout = null;
+        let isFullscreen = false;
+        
+        // Initialize room
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRoom();
+            initializeVideoPlayer();
+            initializeChat();
+            loadParticipants();
+            setupPWA();
+        });
+        
+        function initializeRoom() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomId = urlParams.get('id');
+            
+            if (!roomId) {
+                currentRoom = generateRoomId();
+                window.history.replaceState({}, '', `?id=${currentRoom}`);
+            } else {
+                currentRoom = roomId;
+            }
+            
+            document.getElementById('roomIdDisplay').textContent = currentRoom;
+            
+            setTimeout(() => {
+                addSystemMessage('تم الانضمام للغرفة بنجاح! أضف رابط الفيديو للبدء.');
+            }, 1000);
+        }
+        
+        function initializeVideoPlayer() {
+            videoPlayer = document.getElementById('videoPlayer');
+            
+            // Video event listeners
+            videoPlayer.addEventListener('loadedmetadata', function() {
+                duration = videoPlayer.duration;
+                updateTimeDisplay();
+            });
+            
+            videoPlayer.addEventListener('timeupdate', function() {
+                currentTime = videoPlayer.currentTime;
+                updateProgressBar();
+                updateTimeDisplay();
+            });
+            
+            videoPlayer.addEventListener('play', function() {
+                isPlaying = true;
+                updatePlayPauseButton();
+                syncVideoState('play', currentTime);
+            });
+            
+            videoPlayer.addEventListener('pause', function() {
+                isPlaying = false;
+                updatePlayPauseButton();
+                syncVideoState('pause', currentTime);
+            });
+            
+            videoPlayer.addEventListener('ended', function() {
+                isPlaying = false;
+                updatePlayPauseButton();
+            });
+            
+            // Control buttons
+            document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+            document.getElementById('muteBtn').addEventListener('click', toggleMute);
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+            document.getElementById('volumeSlider').addEventListener('input', updateVolume);
+            
+            // Progress bar
+            document.getElementById('progressBar').addEventListener('click', seekVideo);
+        }
+        
+        function initializeChat() {
+            const chatHistory = getChatHistory();
+            if (chatHistory.length > 0) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+                chatHistory.forEach(message => {
+                    addMessageToChat(message.username, message.message, message.isOwn, message.timestamp);
+                });
+            }
+            
+            addSystemMessage('مرحباً بك في Lremty! أضف رابط الفيديو للبدء.');
+        }
+        
+        function setupPWA() {
+            if ('standalone' in window.navigator && window.navigator.standalone) {
+                document.body.classList.add('pwa-installed');
+            }
+            
+            window.addEventListener('orientationchange', function() {
+                setTimeout(resizeVideo, 100);
+            });
+        }
+        
+        // Video Loading Functions
+        function loadVideo() {
+            const urlInput = document.getElementById('videoUrlInput');
+            const videoUrl = urlInput.value.trim();
+            
+            if (!videoUrl) {
+                showNotification('الرجاء إدخال رابط الفيديو', 'error');
+                return;
+            }
+            
+            showNotification('جاري تحميل الفيديو...', 'info');
+            
+            if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                loadYouTubeVideo(videoUrl);
+            } else if (videoUrl.endsWith('.mp4') || videoUrl.endsWith('.webm') || videoUrl.endsWith('.mov')) {
+                loadDirectVideo(videoUrl);
+            } else if (videoUrl.endsWith('.m3u8')) {
+                loadHLSVideo(videoUrl);
+            } else {
+                loadDirectVideo(videoUrl);
+            }
+        }
+        
+        function loadYouTubeVideo(url) {
+            let videoId = null;
+            
+            if (url.includes('v=')) {
+                videoId = url.split('v=')[1].split('&')[0];
+            } else if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            }
+            
+            if (videoId) {
+                showNotification('جاري تحضير فيديو YouTube...', 'info');
+                
+                setTimeout(() => {
+                    showYouTubeEmbed(videoId);
+                    showNotification('تم تحضير الفيديو! اضغط تشغيل للبدء.', 'success');
+                }, 2000);
+            } else {
+                showNotification('رابط YouTube غير صحيح', 'error');
+            }
+        }
+        
+        function showYouTubeEmbed(videoId) {
+            const videoWrapper = document.getElementById('videoWrapper');
+            videoWrapper.innerHTML = `
+                <iframe 
+                    id="youtubePlayer"
+                    class="video-player"
+                    src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&fs=0&rel=0&playsinline=1"
+                    frameborder="0"
+                    allowfullscreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                </iframe>
+            `;
+            
+            document.getElementById('videoControls').style.display = 'block';
+        }
+        
+        function loadDirectVideo(url) {
+            videoPlayer.src = url;
+            videoPlayer.load();
+            
+            videoPlayer.addEventListener('loadeddata', function() {
+                showNotification('تم تحميل الفيديو بنجاح!', 'success');
+                videoPlayer.play().catch(e => {
+                    showNotification('اضغط تشغيل للبدء', 'info');
+                });
+            });
+            
+            videoPlayer.addEventListener('error', function() {
+                showNotification('فشل تحميل الفيديو. تأكد من صحة الرابط.', 'error');
+            });
+        }
+        
+        function loadHLSVideo(url) {
+            if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                loadDirectVideo(url);
+            } else {
+                showNotification('جاري تحضير بث HLS...', 'info');
+                setTimeout(() => {
+                    loadDirectVideo(url);
+                }, 1500);
+            }
+        }
+        
+        // Video Controls
+        function togglePlayPause() {
+            if (videoPlayer.paused) {
+                videoPlayer.play().catch(e => {
+                    showNotification('اضغط على الفيديو للسماح بالتشغيل', 'info');
+                });
+            } else {
+                videoPlayer.pause();
+            }
+        }
+        
+        function updatePlayPauseButton() {
+            const btn = document.getElementById('playPauseBtn');
+            const icon = btn.querySelector('i');
+            
+            if (videoPlayer.paused) {
+                icon.className = 'fas fa-play';
+            } else {
+                icon.className = 'fas fa-pause';
+            }
+        }
+        
+        function toggleMute() {
+            videoPlayer.muted = !videoPlayer.muted;
+            updateMuteButton();
+        }
+        
+        function updateMuteButton() {
+            const btn = document.getElementById('muteBtn');
+            const icon = btn.querySelector('i');
+            const slider = document.getElementById('volumeSlider');
+            
+            if (videoPlayer.muted || videoPlayer.volume === 0) {
+                icon.className = 'fas fa-volume-mute';
+                slider.value = 0;
+            } else if (videoPlayer.volume < 0.5) {
+                icon.className = 'fas fa-volume-down';
+            } else {
+                icon.className = 'fas fa-volume-up';
+            }
+        }
+        
+        function updateVolume(event) {
+            const volume = event.target.value / 100;
+            videoPlayer.volume = volume;
+            videoPlayer.muted = volume === 0;
+            updateMuteButton();
+        }
+        
+        function seekVideo(event) {
+            const progressBar = event.currentTarget;
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const seekTime = percentage * duration;
+            
+            videoPlayer.currentTime = seekTime;
+            syncVideoState('seek', seekTime);
+        }
+        
+        function updateProgressBar() {
+            const percentage = (currentTime / duration) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+        
+        function updateTimeDisplay() {
+            const current = formatTime(currentTime);
+            const total = formatTime(duration);
+            document.getElementById('timeDisplay').textContent = `${current} / ${total}`;
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Enhanced Fullscreen Mode with Chat
+        function toggleFullscreen() {
+            const videoContainer = document.getElementById('videoContainer');
+            const normalChatToggle = document.getElementById('chatToggle');
+            const fullscreenChatToggle = document.getElementById('fullscreenChatToggle');
+            
+            if (!isFullscreen) {
+                // Enter fullscreen
+                videoContainer.classList.add('fullscreen-mode');
+                isFullscreen = true;
+                
+                // Show fullscreen chat toggle (bottom right)
+                fullscreenChatToggle.classList.add('show');
+                
+                // Hide normal chat toggle
+                normalChatToggle.style.display = 'none';
+                
+                // Update button
+                document.getElementById('fullscreenBtn').querySelector('i').className = 'fas fa-compress';
+                
+                // Hide other elements
+                document.querySelector('.video-input-area').style.display = 'none';
+                document.querySelector('.room-info').style.display = 'none';
+                
+                // Show notification
+                showNotification('وضع المسرح مفعل - اضغط ESC للخروج', 'info');
+                
+            } else {
+                // Exit fullscreen
+                videoContainer.classList.remove('fullscreen-mode');
+                isFullscreen = false;
+                
+                // Hide fullscreen chat toggle
+                fullscreenChatToggle.classList.remove('show');
+                
+                // Show normal chat toggle
+                normalChatToggle.style.display = 'flex';
+                
+                // Update button
+                document.getElementById('fullscreenBtn').querySelector('i').className = 'fas fa-expand';
+                
+                // Show other elements
+                document.querySelector('.video-input-area').style.display = 'flex';
+                document.querySelector('.room-info').style.display = 'block';
+            }
+        }
+        
+        // Chat Functions
+        function toggleChat() {
+            const sidebar = document.getElementById('chatSidebar');
+            sidebar.classList.toggle('open');
+            
+            // Update chat toggle position
+            const normalToggle = document.getElementById('chatToggle');
+            const fullscreenToggle = document.getElementById('fullscreenChatToggle');
+            
+            if (sidebar.classList.contains('open')) {
+                if (isFullscreen) {
+                    // In fullscreen, chat toggle stays visible
+                    fullscreenToggle.style.display = 'flex';
+                } else {
+                    normalToggle.style.left = '370px';
+                    if (window.innerWidth <= 768) {
+                        normalToggle.style.left = '20px';
+                    }
+                }
+            } else {
+                if (isFullscreen) {
+                    fullscreenToggle.style.display = 'flex';
+                } else {
+                    normalToggle.style.left = '20px';
+                }
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add message to chat
+            addMessageToChat('أنت', message, true);
+            
+            // Save to history
+            saveChatMessage('أنت', message, true);
+            
+            // Clear input
+            input.value = '';
+            
+            // Simulate response after delay
+            setTimeout(() => {
+                const responses = [
+                    'شكراً للمشاركة!',
+                    'أتفق معك تماماً',
+                    'هذا ممتع!',
+                    'لقد أضحكتني 😄',
+                    'مقترح رائع!',
+                    'أحب هذا المشهد',
+                    'هل رأيت هذا من قبل؟'
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessageToChat('صديق', randomResponse, false);
+                showMessageNotification('صديق', randomResponse);
+            }, 1000 + Math.random() * 2000);
+        }
+        
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function handleTyping() {
+            if (!isTyping) {
+                isTyping = true;
+                showTypingIndicator();
+            }
+            
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                isTyping = false;
+                hideTypingIndicator();
+            }, 1000);
+        }
+        
+        function addMessageToChat(username, message, isOwn = false, timestamp = null) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isOwn ? 'own' : ''}`;
+            
+            const time = timestamp ? new Date(timestamp).toLocaleTimeString('ar-SA', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            }) : new Date().toLocaleTimeString('ar-SA', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageDiv.innerHTML = `
+                ${!isOwn ? `<div class="message-username">${username}</div>` : ''}
+                <div class="message-bubble">${message}</div>
+                <div class="message-time">${time}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function addSystemMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'text-center text-gray-400 text-sm py-2';
+            messageDiv.textContent = message;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.style.display = 'block';
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.style.display = 'none';
+        }
+        
+        function showMessageNotification(username, message) {
+            const popup = document.getElementById('notificationPopup');
+            const usernameEl = document.getElementById('notificationUsername');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            usernameEl.textContent = username;
+            messageEl.textContent = message.length > 40 ? message.substring(0, 40) + '...' : message;
+            
+            popup.classList.add('show', 'auto-hide');
+            
+            setTimeout(() => {
+                popup.classList.remove('show', 'auto-hide');
+            }, 5000);
+        }
+        
+        // Utility Functions
+        function loadParticipants() {
+            const participants = [
+                { id: 'user1', name: 'أنت', isOnline: true },
+                { id: 'user2', name: 'سارة', isOnline: true },
+                { id: 'user3', name: 'أحمد', isOnline: false }
+            ];
+            
+            updateParticipantsList(participants);
+        }
+        
+        function updateParticipantsList(participants) {
+            const list = document.getElementById('participantsList');
+            const count = document.getElementById('participantsCount');
+            const participantCount = document.getElementById('participantCount');
+            
+            list.innerHTML = '';
+            participants.forEach(participant => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant';
+                participantDiv.innerHTML = `
+                    <div class="status-indicator ${participant.isOnline ? 'bg-green-500' : 'bg-gray-500'}"></div>
+                    <div class="participant-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>${participant.name}</span>
+                `;
+                list.appendChild(participantDiv);
+            });
+            
+            const onlineCount = participants.filter(p => p.isOnline).length;
+            count.textContent = onlineCount;
+            participantCount.textContent = onlineCount;
+        }
+        
+        function generateRoomId() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 10; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        function copyRoomId() {
+            const roomId = document.getElementById('roomIdDisplay').textContent;
+            navigator.clipboard.writeText(roomId).then(() => {
+                showNotification('تم نسخ رقم الغرفة!', 'success');
+            }).catch(() => {
+                showNotification('فشل النسخ، انسخ يدوياً', 'error');
+            });
+        }
+        
+        function shareRoom() {
+            const roomUrl = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'انضم لغرفة المشاهدة',
+                    text: 'شاهد الفيديو معي على Lremty!',
+                    url: roomUrl
+                }).catch(() => {
+                    fallbackShare(roomUrl);
+                });
+            } else {
+                fallbackShare(roomUrl);
+            }
+        }
+        
+        function fallbackShare(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                showNotification('تم نسخ رابط الغرفة!', 'success');
+            }).catch(() => {
+                showNotification('فشل النسخ، انسخ يدوياً', 'error');
+            });
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 px-6 py-3 rounded-lg text-white z-50 transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+        
+        function syncVideoState(action, time) {
+            console.log('Syncing video state:', { action, time, room: currentRoom });
+        }
+        
+        function getChatHistory() {
+            const history = localStorage.getItem(`chat_${currentRoom}`);
+            return history ? JSON.parse(history) : [];
+        }
+        
+        function saveChatMessage(username, message, isOwn) {
+            const history = getChatHistory();
+            history.push({
+                username,
+                message,
+                isOwn,
+                timestamp: new Date().toISOString()
+            });
+            
+            if (history.length > 100) {
+                history.splice(0, history.length - 100);
+            }
+            
+            localStorage.setItem(`chat_${currentRoom}`, JSON.stringify(history));
+        }
+        
+        function resizeVideo() {
+            const videoPlayer = document.getElementById('videoPlayer');
+            if (videoPlayer && isFullscreen) {
+                setTimeout(() => {
+                    videoPlayer.style.height = window.innerHeight + 'px';
+                    videoPlayer.style.width = window.innerWidth + 'px';
+                }, 100);
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT') return;
+            
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    togglePlayPause();
+                    break;
+                case 'f':
+                case 'F':
+                    toggleFullscreen();
+                    break;
+                case 'm':
+                case 'M':
+                    toggleMute();
+                    break;
+                case 'c':
+                case 'C':
+                    toggleChat();
+                    break;
+                case 'Escape':
+                    if (isFullscreen) {
+                        e.preventDefault();
+                        toggleFullscreen();
+                    }
+                    break;
+            }
+        });
+        
+        // Handle fullscreen changes
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement && isFullscreen) {
+                toggleFullscreen();
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', resizeVideo);
+        
+        // Prevent context menu on video (mobile)
+        videoPlayer?.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        // Export functions
+        window.toggleChat = toggleChat;
+        window.sendMessage = sendMessage;
+        window.handleChatInput = handleChatInput;
+        window.handleTyping = handleTyping;
+        window.loadVideo = loadVideo;
+    </script>
+</body>
+</html>
